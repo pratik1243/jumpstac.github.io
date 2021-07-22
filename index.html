@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jumpstac-game</title>
+    <style>
+        #game {
+            height: 20rem;
+            width: 40rem;
+            overflow: hidden;
+            background-color: black;
+            cursor: pointer;
+        }
+
+
+        #character {
+            position: relative;
+            height: 3rem;
+            width: 3rem;
+            background-color: red;
+            top: 250px;
+            left: 20px;
+            transition: 0.2s;
+            border-radius: 2rem;
+            transition: 1s;
+        }
+
+
+
+
+
+        .animate {
+            animation: p 650ms infinite;
+        }
+
+        @keyframes p {
+
+            0% {
+                top: 200px;
+            }
+
+            50% {
+                top: 100px;
+            }
+
+            100% {
+                top: 100px;
+            }
+
+        }
+
+
+
+
+        #obstacle {
+            position: relative;
+            height: 10rem;
+            width: 3rem;
+            background-color: blue;
+            left: 590px;
+            top: 110px;
+            animation: block 1.6s linear infinite;
+        }
+
+
+        @keyframes block {
+
+            0% {
+                left: 590px;
+            }
+
+            100% {
+                left: -40px;
+            }
+
+        }
+
+
+
+
+        #score {
+            color: white;
+            font-family: sans-serif;
+            font-weight: lighter;
+            letter-spacing: .2rem;
+            position: relative;
+            left: 530px;
+            bottom: 195px;
+            font-size: 1rem;
+
+        }
+
+
+
+
+
+
+
+
+
+        #result {
+            position: relative;
+            left: 110px;
+            font-family: sans-serif;
+            font-weight: lighter;
+            top: 100px;
+            text-transform: capitalize;
+        }
+
+
+        #refresh {
+            padding: .5rem;
+            color: black;
+            display: none;
+            font-weight: bold;
+            font-size: 1rem;
+            position: relative;
+            left: 273px;
+            top: 124px;
+            cursor: pointer;
+        }
+
+
+        button {
+
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+            padding: .6rem;
+            font-size: 1rem;
+
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+
+
+    <div id="game" onclick="jump()">
+
+        <div id="character"></div>
+
+        <div id="obstacle"></div>
+
+        <div id="obstacle2"></div>
+
+        <span id="score"></span>
+
+
+        <span id="result"></span>
+
+        <button id="refresh" onclick="refresh()">play again</button>
+
+
+
+    </div><br><br>
+
+
+
+
+
+
+
+    <script>
+
+        let character = document.getElementById("character");
+        let block = document.getElementById("obstacle");
+
+        function jump() {
+            character.classList.add("animate");
+            setTimeout(function () {
+                character.classList.remove("animate");
+            }, 650);
+
+        }
+
+
+        let s = 0;
+        function score() {
+
+            if (s == 20) {
+
+                block.style.animationDuration = "1.5s";
+
+            }
+
+            let score = document.getElementById("score");
+            s = s + 1;
+            score.innerHTML = "score:" + s;
+
+        } setInterval(score, 1000);
+
+
+        let over = setInterval(function () {
+            let result = document.getElementById("result");
+            let again = document.getElementById("refresh");
+            let charactertop = parseInt(window.getComputedStyle(character).getPropertyValue("top"));
+            let myblock = parseInt(window.getComputedStyle(block).getPropertyValue("left"));
+
+            if (myblock < 61 && charactertop >= 130) {
+
+                block.style.animation = "none";
+                block.style.display = "none";
+                clearInterval(score);
+                result.innerHTML = "game over your score is&nbsp" + s;
+                result.style.color = "white";
+                result.style.fontSize = "1.3rem"
+                again.style.display = "block";
+                character.style.display = "none";
+            }
+
+
+
+        }, 10);
+
+
+        function refresh() {
+            window.location.reload();
+        }
+
+
+
+
+    </script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
